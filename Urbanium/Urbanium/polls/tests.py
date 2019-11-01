@@ -14,8 +14,8 @@ def create_question(question_text, days):
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
         future_question = create_question(question_text='Future question.', days=5)
-        url = reverse('polls:detail', args=(future_question.index,))
-        respone = self.client.get(url)
+        url = reverse('polls:detail', args=(future_question.id,))
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
 
@@ -38,7 +38,7 @@ class QuestionIndexViewTests(TestCase):
         response = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(
             response.context['latest_question_list'],
-            ['<Question: Past questoin.>']
+            ['<Question: Past question.>']
         )
 
     def test_future_question(self):
@@ -62,7 +62,7 @@ class QuestionIndexViewTests(TestCase):
         respone = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(
             respone.context['latest_question_list'],
-            ['<Question: Past question 2.>', '<Question: Past question1.>']
+            ['<Question: Past question 2.>', '<Question: Past question 1.>']
         )
 
 class QuestionModelTests(TestCase):
